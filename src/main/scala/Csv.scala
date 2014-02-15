@@ -9,12 +9,16 @@ object Csv extends RegexParsers {
     case failure : NoSuccess => scala.sys.error(failure.msg)
   }
 
-  def table: Parser[List[List[String]]] = field ~ rep(continuous_field) ^^ {
-    case x ~ y => List(x :: y)
+  def table: Parser[List[List[String]]] = rep(row)
+
+  def row: Parser[List[String]] = (field ~ rep(continuous_field)) ~ opt(newline) ^^ {
+    case x ~ y ~ _ => x :: y
   }
+
+  def newline: Parser[String] = """\n""".r
 
   def continuous_field: Parser[String] = "," ~> field
 
-  def field: Parser[String] = """[^,]+""".r
+  def field: Parser[String] = """[^,\n]+""".r
 
 }

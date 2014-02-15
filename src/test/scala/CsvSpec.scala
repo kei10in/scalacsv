@@ -14,4 +14,9 @@ class CsvSpec extends FunSuite {
     assert(actual === List(List("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")))
   }
 
+  test("parse simple rows") {
+    val actual = Csv("0,1\n3,4\n5,6\n")
+    assert(actual === List(List("0", "1"), List("3", "4"), List("5", "6")))
+  }
+
 }
