@@ -5,18 +5,22 @@ import org.scalatest.FunSuite
 class CsvSpec extends FunSuite {
 
   test("parse scalar") {
-    val actual = Csv("1")
-    assert(actual === List(List("1")))
+    val input = "1"
+    assert(Csv(input) === List(List("1")))
   }
 
   test("parse simple 10 fields") {
-    val actual = Csv("0,1,2,3,4,5,6,7,8,9")
-    assert(actual === List(List("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")))
+    val input = "0,1,2,3,4,5,6,7,8,9"
+    assert(Csv(input) === List(List("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")))
   }
 
   test("parse simple rows") {
-    val actual = Csv("0,1\n3,4\n5,6\n")
-    assert(actual === List(List("0", "1"), List("3", "4"), List("5", "6")))
+    val input
+      = """0,1
+          |3,4
+          |5,6
+          |""".stripMargin
+    assert(Csv(input) === List(List("0", "1"), List("3", "4"), List("5", "6")))
   }
 
 }
