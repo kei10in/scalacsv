@@ -23,4 +23,9 @@ class CsvSpec extends FunSuite {
     assert(Csv(input) === List(List("0", "1"), List("3", "4"), List("5", "6")))
   }
 
+  test("parse quoted field") {
+    val input = "\"1\""
+    assert(Csv(input) === List(List("1")))
+  }
+
 }

@@ -19,6 +19,10 @@ object Csv extends RegexParsers {
 
   def continuous_field: Parser[String] = "," ~> field
 
-  def field: Parser[String] = """[^,\n]+""".r
+  def field: Parser[String] = quoted_field | raw_field
+
+  def quoted_field: Parser[String] = "\"" ~> """[^"]*""".r <~ "\""
+
+  def raw_field: Parser[String] = """[^,\n]+""".r
 
 }
