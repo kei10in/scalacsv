@@ -1,7 +1,6 @@
 package scalacsv
 
 import scala.util.parsing.combinator._
-import scala.util.parsing.input.CharArrayReader.EofCh
 
 object Csv extends RegexParsers {
   def apply(input: String): List[List[String]] = parseAll(table, input) match {
