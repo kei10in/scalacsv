@@ -14,15 +14,13 @@ object Csv extends RegexParsers {
   def row: Parser[List[String]] = regular_row | empty_row
 
   def regular_row: Parser[List[String]] =
-    (field ~ rep(continuous_field)) ~ opt(newline) ^^ {
-      case x ~ y ~ _ => x :: y
+    rep1sep(field, ",") ~ opt(newline) ^^ {
+      case x ~ _ => x
     }
 
   def empty_row: Parser[List[String]] = newline ^^^ List("")
 
   def newline: Parser[String] = """\n""".r
-
-  def continuous_field: Parser[String] = "," ~> field
 
   def field: Parser[String] = quoted_field | raw_field
 
@@ -37,4 +35,5 @@ object Csv extends RegexParsers {
 
   def raw_field: Parser[String] = """[^,\n]+""".r
 
+  def field_delimiter = ","
 }
