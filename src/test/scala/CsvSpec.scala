@@ -28,4 +28,9 @@ class CsvSpec extends FunSuite {
     assert(Csv(input) === List(List("1")))
   }
 
+  test("parse escaped quote") {
+    val input = "\"\"\"\""
+    assert(Csv(input) === List(List("\"")))
+  }
+
 }

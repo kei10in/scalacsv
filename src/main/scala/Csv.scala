@@ -21,7 +21,12 @@ object Csv extends RegexParsers {
 
   def field: Parser[String] = quoted_field | raw_field
 
-  def quoted_field: Parser[String] = "\"" ~> """[^"]*""".r <~ "\""
+  def quoted_field: Parser[String] =
+    "\"" ~> rep("""[^"]""".r | charSeq) <~ "\"" ^^ {
+      _.mkString
+    }
+
+  def charSeq: Parser[String] = '"' ~ '"' ^^^ "\""
 
   def raw_field: Parser[String] = """[^,\n]+""".r
 
