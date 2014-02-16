@@ -11,9 +11,9 @@ object Csv extends RegexParsers {
 
   override def skipWhitespace = false
 
-  def table: Parser[List[List[String]]] = repsep(row, "\n")
+  def table: Parser[List[List[String]]] = repsep(row, row_delimiter)
 
-  def row: Parser[List[String]] = repsep(field, ",")
+  def row: Parser[List[String]] = repsep(field, field_delimiter)
 
   def field: Parser[String] = quoted_field | raw_field
 
@@ -22,11 +22,12 @@ object Csv extends RegexParsers {
       _.mkString
     }
 
-  def newlineChar: Parser[String] = elem('\n') ^^^ "\n"
-
   def charSeq: Parser[String] = '"' ~ '"' ^^^ "\""
+
+  def newlineChar: Parser[String] = elem('\n') ^^^ "\n"
 
   def raw_field: Parser[String] = """[^,\n]*""".r
 
+  def row_delimiter = "\n"
   def field_delimiter = ","
 }
