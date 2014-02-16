@@ -9,18 +9,11 @@ object Csv extends RegexParsers {
     case failure : NoSuccess => scala.sys.error(failure.msg)
   }
 
-  def table: Parser[List[List[String]]] = rep(row)
+  override def skipWhitespace = false
 
-  def row: Parser[List[String]] = regular_row | empty_row
+  def table: Parser[List[List[String]]] = repsep(row, "\n")
 
-  def regular_row: Parser[List[String]] =
-    rep1sep(field, ",") ~ opt(newline) ^^ {
-      case x ~ _ => x
-    }
-
-  def empty_row: Parser[List[String]] = newline ^^^ List("")
-
-  def newline: Parser[String] = """\n""".r
+  def row: Parser[List[String]] = repsep(field, ",")
 
   def field: Parser[String] = quoted_field | raw_field
 
@@ -33,7 +26,7 @@ object Csv extends RegexParsers {
 
   def charSeq: Parser[String] = '"' ~ '"' ^^^ "\""
 
-  def raw_field: Parser[String] = """[^,\n]+""".r
+  def raw_field: Parser[String] = """[^,\n]*""".r
 
   def field_delimiter = ","
 }

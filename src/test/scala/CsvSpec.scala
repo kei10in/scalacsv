@@ -18,8 +18,7 @@ class CsvSpec extends FunSuite {
     val input
       = """0,1
           |3,4
-          |5,6
-          |""".stripMargin
+          |5,6""".stripMargin
     assert(Csv(input) === List(List("0", "1"), List("3", "4"), List("5", "6")))
   }
 
@@ -45,7 +44,7 @@ class CsvSpec extends FunSuite {
 
   test("parse empty string as empty") {
     val input = ""
-    assert(Csv(input) === Nil)
+    assert(Csv(input) === List(List("")))
   }
 
  }
