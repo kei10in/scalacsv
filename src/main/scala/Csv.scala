@@ -11,9 +11,14 @@ object Csv extends RegexParsers {
 
   def table: Parser[List[List[String]]] = rep(row)
 
-  def row: Parser[List[String]] = (field ~ rep(continuous_field)) ~ opt(newline) ^^ {
-    case x ~ y ~ _ => x :: y
-  }
+  def row: Parser[List[String]] = regular_row | empty_row
+
+  def regular_row: Parser[List[String]] =
+    (field ~ rep(continuous_field)) ~ opt(newline) ^^ {
+      case x ~ y ~ _ => x :: y
+    }
+
+  def empty_row: Parser[List[String]] = newline ^^^ List("")
 
   def newline: Parser[String] = """\n""".r
 

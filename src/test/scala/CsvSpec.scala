@@ -43,4 +43,9 @@ class CsvSpec extends FunSuite {
     assert(Csv(input) === List(List("a\nb", "c")))
   }
 
-}
+  test("parse empty string as empty") {
+    val input = ""
+    assert(Csv(input) === Nil)
+  }
+
+ }
