@@ -47,4 +47,14 @@ class CsvSpec extends FunSuite {
     assert(Csv(input) === List(List("")))
   }
 
+  test("parse comma to 2 empty field") {
+    val input = ","
+    assert(Csv(input) === List(List("", "")))
+  }
+
+  test("quote is effective only if appears in head of field") {
+    val input = " \", \""
+    assert(Csv(input) === List(List(" \"", " \"")))
+  }
+
  }
