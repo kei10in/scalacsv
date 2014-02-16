@@ -33,4 +33,9 @@ class CsvSpec extends FunSuite {
     assert(Csv(input) === List(List("\"")))
   }
 
+  test("parse field including comma between quotes") {
+    val input = "\"a,b\",c"
+    assert(Csv(input) === List(List("a,b", "c")))
+  }
+
 }
