@@ -17,16 +17,17 @@ object Csv extends RegexParsers {
   def field: Parser[String] = quoted_field | raw_field
 
   def quoted_field: Parser[String] =
-    "\"" ~> rep(charSeq | newlineChar | """[^"]""".r) <~ "\"" ^^ {
+    "\"" ~> rep(charSeq | newline | """[^"]""".r) <~ "\"" ^^ {
       _.mkString
     }
 
-  def charSeq: Parser[String] = '"' ~ '"' ^^^ "\""
-
-  def newlineChar: Parser[String] = "\r\n" | "\n" | "\r" ^^^ "\n"
+  def charSeq: Parser[String] = "\"\"" ^^^ "\""
 
   def raw_field: Parser[String] = """[^,\n\r]*""".r
 
-  def row_delimiter = "\r\n" | "\n" | "\r"
+  def row_delimiter = newline
+
   def field_delimiter = ","
+
+  def newline: Parser[String] = "\r\n" | "\n" | "\r"
 }
