@@ -23,10 +23,10 @@ object Csv extends RegexParsers {
 
   def charSeq: Parser[String] = '"' ~ '"' ^^^ "\""
 
-  def newlineChar: Parser[String] = elem('\n') ^^^ "\n"
+  def newlineChar: Parser[String] = "\r\n" | "\n" | "\r" ^^^ "\n"
 
-  def raw_field: Parser[String] = """[^,\n]*""".r
+  def raw_field: Parser[String] = """[^,\n\r]*""".r
 
-  def row_delimiter = "\n"
+  def row_delimiter = "\r\n" | "\n" | "\r"
   def field_delimiter = ","
 }
