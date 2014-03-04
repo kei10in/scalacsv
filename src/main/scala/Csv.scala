@@ -25,9 +25,9 @@ object Csv extends RegexParsers {
 
   def raw_field: Parser[String] = """[^,\n\r]*""".r
 
-  def row_delimiter = newline
+  def row_delimiter: Parser[String] = newline
 
-  def field_delimiter = ","
+  def field_delimiter: Parser[String] = ","
 
   def newline: Parser[String] = "\r\n" | "\n" | "\r"
 }
